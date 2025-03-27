@@ -44,7 +44,7 @@ function checkAnswers() {
     challenge1: "16",
     challenge2: "frank", // esempio, puoi cambiare la parola giusta
     challenge3: "198",
-    challenge4: "lin",
+    challenge4: "4",
     challenge5: "25",
     challenge6: "3", // esempio per il nerdle, inserisci il numero giusto
     challenge7: "ajalab",
