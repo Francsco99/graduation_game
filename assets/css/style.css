@@ -21,3 +21,14 @@ canvas {
 .next-section {
   height: 100vh;
 }
+
+.container { 
+  max-width: 600px; 
+  margin-top: 50px; 
+}
+
+.tip { 
+  display: none; 
+  color: blue; 
+  font-style: italic; 
+}
