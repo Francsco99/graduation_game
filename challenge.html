@@ -2,7 +2,7 @@
 <html lang="it">
 <head>
   <meta charset="UTF-8">
-  <title>Sfide</title>
+  <title>Graduation Game| Challenge</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Favicon -->
   <link rel="apple-touch-icon" sizes="180x180" href="favicon/apple-touch-icon.png" />
@@ -11,6 +11,8 @@
   <link rel="icon" href="favicon/favicon.ico" />
   <link rel="manifest" href="favicon/site.webmanifest" />
 
+  <!-- SweetAlert2 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css" rel="stylesheet">
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/style.css">
@@ -18,46 +20,86 @@
 <body>
 
   <div class="container">
-    <h2 class="text-center mb-4">Risolvi le sfide!</h2>
+    <h1 class="text-center mb-4">Risolvi le sfide!</h1>
 
     <!-- Sfida 1 -->
     <div class="mb-3">
-      <label class="form-label">Inserisci un numero</label>
+      <label class="form-label">Se il timelapse attentamente guarderai... un numero troverai.</label>
       <input type="number" id="challenge1" class="form-control" oninput="checkInputs()">
       <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(1)">Mostra Tip</button>
-      <p id="tip1" class="tip">Tip: Guarda il video</p>
+      <p id="tip1" class="tip">Tip: Osserva attentamente il timelapse</p>
     </div>
 
     <!-- Sfida 2 -->
     <div class="mb-3">
-      <label class="form-label">Risolvere il Wordle giornaliero</label>
+      <label class="form-label">Se il <a href="https://pietroppeter.github.io/wordle-it/">wordle</a> risolverai... una parola scoprirai.</label>
       <input type="text" id="challenge2" class="form-control" oninput="checkInputs()">
       <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(2)">Mostra Tip</button>
-      <p id="tip2" class="tip">Tip: Parola corretta</p>
+      <p id="tip2" class="tip">Tip: Fa rima con...</p>
     </div>
 
     <!-- Sfida 3 -->
     <div class="mb-3">
-      <label class="form-label">Inserire il numero maggiore di ravioli preparati</label>
+      <label class="form-label">Di ravioli tanti ne abbiamo mangiati... sai dirmi quanti l'ultima volta ne ho cucinati? </label>
       <input type="number" id="challenge3" class="form-control" oninput="checkInputs()">
       <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(3)">Mostra Tip</button>
-      <p id="tip3" class="tip">Tip: Più di 150</p>
+      <p id="tip3" class="tip">Tip: C6 (fai attenzione alla prima risposta...)</p>
     </div>
 
     <!-- Sfida 4 -->
     <div class="mb-3">
-      <label class="form-label">Inserire la città di nascita di Lin</label>
+      <label class="form-label">Sono giallo... sono qui... mi chiamo?</label>
       <input type="text" id="challenge4" class="form-control" oninput="checkInputs()">
       <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(4)">Mostra Tip</button>
-      <p id="tip4" class="tip">Tip: Provare a corrompere Lin</p>
+      <p id="tip4" class="tip">Tip: Dai... </p>
     </div>
 
     <!-- Sfida 5 -->
     <div class="mb-3">
-      <label class="form-label">Inserire il mio voto più basso della magistrale</label>
+      <label class="form-label">Laureato si... ma il voto più basso?</label>
       <input type="number" id="challenge5" class="form-control" oninput="checkInputs()">
       <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(5)">Mostra Tip</button>
       <p id="tip5" class="tip">Tip: Più di 22</p>
+    </div>
+
+    <!-- Sfida 6 -->
+    <div class="mb-3">
+      <label class="form-label">Se il <a href="https://nerdlegame.com/">nerdle</a> risolverai... un numero scoprirai.</label>
+      <input type="number" id="challenge6" class="form-control" oninput="checkInputs()">
+      <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(6)">Mostra Tip</button>
+      <p id="tip6" class="tip">Tip: Operazione</p>
+    </div>
+
+    <!-- Sfida 7 -->
+    <div class="mb-3">
+      <label class="form-label">Specchio, servo delle mie brame: qual è la società più cool del reame? </label>
+      <input type="text" id="challenge7" class="form-control" oninput="checkInputs()">
+      <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(7)">Mostra Tip</button>
+      <p id="tip7" class="tip">Tip: Aj....</p>
+    </div>
+
+    <!-- Sfida 8 -->
+    <div class="mb-3">
+      <label class="form-label">Vederla si può appena se n'è andato, e ti dice che lui di lì è passato</label>
+      <input type="text" id="challenge8" class="form-control" oninput="checkInputs()">
+      <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(8)">Mostra Tip</button>
+      <p id="tip8" class="tip">Tip: Anagramma OMAR</p>
+    </div>
+
+    <!-- Sfida 9 -->
+    <div class="mb-3">
+      <label class="form-label">Riuscirai a risolvere il <a href="assets/challenge/rebus.jpg">rebus</a>?</label>
+      <input type="text" id="challenge9" class="form-control" oninput="checkInputs()">
+      <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(9)">Mostra Tip</button>
+      <p id="tip9" class="tip">Tip: Macchinoni</p>
+    </div>
+
+    <!-- Sfida 10 -->
+    <div class="mb-3">
+      <label class="form-label">Se fin qui sei arrivato, quanto misura la scatola che ti ho donato?</label>
+      <input type="number" id="challenge10" class="form-control" oninput="checkInputs()">
+      <button class="btn rounded-pill btn-sm btn-outline-info mt-1" onclick="showTip(10)">Mostra Tip</button>
+      <p id="tip10" class="tip">Tip: (Lato+lato)*2</p>
     </div>
 
     <!-- Bottone per verificare -->
@@ -71,5 +113,7 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- SweetAlert2 JS -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.all.min.js"></script>
 </body>
 </html>
