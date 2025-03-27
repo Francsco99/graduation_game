@@ -72,3 +72,21 @@ function render() {
 
   context.drawImage(img, xOffset, yOffset, newWidth, newHeight); // Ridimensiona l'immagine al canvas
 }
+
+// Aggiungi animazione per il pulsante
+document.getElementById("first-button").addEventListener("click", function(event) {
+  setTimeout(function() {
+    const secondButton = document.getElementById("second-button");
+    secondButton.classList.remove("d-none");
+
+    // Animazione pulsazione con zoom e yoyo
+    gsap.to(secondButton, {
+      scale: 1.2, // Ingrandisce il pulsante
+      duration: 0.6, // Durata dell'animazione
+      repeat: -1, // Ripete all'infinito
+      yoyo: true, // Torna alla dimensione originale
+      ease: "power1.inOut" // Easing morbido
+    });
+
+  }, 3000); // Aspetta 3 secondi prima di mostrare il secondo pulsante
+});
