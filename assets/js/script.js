@@ -3,7 +3,7 @@ console.clear();
 const canvas = document.getElementById("animation");
 const context = canvas.getContext("2d");
 
-const frameCount = 135;
+const frameCount = 140;
 
 // Imposta il canvas per adattarsi a 100vh
 function resizeCanvas() {
