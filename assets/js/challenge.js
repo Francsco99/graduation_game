@@ -42,7 +42,7 @@ function showTip(id) {
 function checkAnswers() {
   const answers = {
     challenge1: "16",
-    challenge2: "frank", // esempio, puoi cambiare la parola giusta
+    challenge2: "vacca", // esempio, puoi cambiare la parola giusta
     challenge3: "198",
     challenge4: "4",
     challenge5: "25",
