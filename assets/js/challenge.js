@@ -1,3 +1,5 @@
+let introAudio, victoryAudio, lostAudio;  // Variabili per gli audio
+
 window.onload = function() {
   // Verifica se l'utente ha già dato il consenso
   if (!getCookie("userConsent")) {
@@ -52,19 +54,45 @@ function showTutorial(consentGiven = true) {
     icon: 'info',
     confirmButtonText: 'Iniziamo!',
     didOpen: () => {
-      // Avvia l'audio non appena il popup di benvenuto si apre
-      let introAudio = new Audio("assets/challenge/challenge_cropped.mp3");
-      introAudio.play().catch(error => console.log("Errore nel riprodurre l'audio:", error));
+      // Crea gli oggetti audio
+      introAudio = new Audio("assets/challenge/challenge_cropped.mp3");
+      victoryAudio = new Audio("assets/challenge/rat_dance.mp3");
+      lostAudio = new Audio("assets/challenge/sad_hamster.mp3");
 
-      // Ferma l'audio quando l'utente chiude il popup
+      // Impostiamo tutti gli audio in loop
+      introAudio.loop = true;
+      victoryAudio.loop = true;
+      lostAudio.loop = true;
+
+      // Avvia l'audio di intro
+      introAudio.play().catch(error => console.log("Errore nel riprodurre l'audio di intro:", error));
+
+      // Ferma gli audio quando l'utente chiude il popup
       Swal.getConfirmButton().addEventListener("click", () => {
-        if (introAudio) {
-          introAudio.pause();
-          introAudio.currentTime = 0; // Riavvia da inizio se viene riprodotto di nuovo
-        }
+        stopAllAudio();
       });
+    },
+    willClose: () => {
+      // Quando il popup si chiude, fermiamo gli audio
+      stopAllAudio();
     }
   });
+}
+
+// Funzione per fermare tutti gli audio
+function stopAllAudio() {
+  if (introAudio) {
+    introAudio.pause();
+    introAudio.currentTime = 0; // Riavvia da inizio se viene riprodotto di nuovo
+  }
+  if (victoryAudio) {
+    victoryAudio.pause();
+    victoryAudio.currentTime = 0; // Riavvia da inizio se viene riprodotto di nuovo
+  }
+  if (lostAudio) {
+    lostAudio.pause();
+    lostAudio.currentTime = 0; // Riavvia da inizio se viene riprodotto di nuovo
+  }
 }
 
 // Funzione per gestire la visualizzazione delle tips (ora ne concede 2)
@@ -110,7 +138,6 @@ function checkAnswers() {
   }
 
   if (allCorrect) {
-    let victoryAudio = new Audio("assets/challenge/rat_dance.mp3"); // Sostituisci con il tuo file audio
     victoryAudio.play().catch(error => console.log("Errore nel riprodurre l'audio:", error));
 
     Swal.fire({
@@ -120,14 +147,9 @@ function checkAnswers() {
       <img class="swal-media" src="assets/challenge/rat_dance.gif" alt="Winner">
       `,
     }).then(() => {
-      // Ferma la canzone quando l'utente chiude l'alert
-      if (victoryAudio) {
-        victoryAudio.pause();
-        victoryAudio.currentTime = 0; // Riavvia da inizio se viene riprodotta di nuovo
-      }
+      stopAllAudio(); // Ferma gli audio quando l'utente chiude l'alert
     });
   } else {
-    let lostAudio = new Audio("assets/challenge/sad_hamster.mp3"); // Sostituisci con il tuo file audio
     lostAudio.play().catch(error => console.log("Errore nel riprodurre l'audio:", error));
     
     Swal.fire({
@@ -137,11 +159,7 @@ function checkAnswers() {
       <img class="swal-media" width="50%" src="assets/challenge/sad_hamster.jpg" alt="Winner">
       `,
     }).then(() => {
-      // Ferma la canzone quando l'utente chiude l'alert
-      if (lostAudio) {
-        lostAudio.pause();
-        lostAudio.currentTime = 0; // Riavvia da inizio se viene riprodotta di nuovo
-      }
+      stopAllAudio(); // Ferma gli audio quando l'utente chiude l'alert
     });
   }
 }
