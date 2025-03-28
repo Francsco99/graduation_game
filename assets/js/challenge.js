@@ -1,4 +1,4 @@
-let introAudio, victoryAudio, lostAudio;  // Variabili per gli audio
+let introAudio, victoryAudio, lostAudio, tipsAudio;  // Variabili per gli audio
 
 window.onload = function() {
   // Verifica se l'utente ha già dato il consenso
@@ -12,11 +12,9 @@ window.onload = function() {
       `,
       icon: 'question',
       confirmButtonText: 'Accetta',
-      // Non mettiamo il pulsante "Rifiuta", quindi non serve gestirlo
     }).then(() => {
       // Memorizza il consenso nei cookie
       setCookie("userConsent", "accepted", 365);
-
       // Mostra il tutorial con l'interazione
       showTutorial(true);
     });
@@ -41,14 +39,14 @@ function showTutorial(consentGiven = true) {
         <img class="swal-media" id="introGif" src="assets/challenge/challenge_cropped.gif" 
           style="width: 100%; max-width: 500px;">
       </div>
-      <div style="text-align: left; margin-top: 10px;">
+      <div style="text-align: center; margin-top: 10px;">
         <p><strong>Regole del gioco:</strong></p>
-        <ul>
-          <li>Inserisci le risposte corrette</li>
-          <li>Hai a disposizione solamente <strong>2 tips</strong>, usale con cautela!</li>
-          <li>Puoi provare a vedere se hai vinto tutte le volte che vuoi</li>
-          <li>I primi tre classificati vinceranno un altro drink!</li>
-        </ul>
+        <p>Sfide da affrontare, senza paura,
+          <br>con risposte giuste, la vittoria è una fortuna!
+          <br>Hai delle tips a disposizione, usale con saggezza,
+          <br>per arrivare in cima, serve molta destrezza!
+          <br>Puoi tentare e riprovare, senza alcun paura,
+          <br>i primi tre a vincere festeggeranno con un'altra bevuta!</p>
       </div>
     `,
     icon: 'info',
@@ -58,11 +56,13 @@ function showTutorial(consentGiven = true) {
       introAudio = new Audio("assets/challenge/challenge_cropped.mp3");
       victoryAudio = new Audio("assets/challenge/rat_dance.mp3");
       lostAudio = new Audio("assets/challenge/sad_hamster.mp3");
+      tipsAudio = new Audio("assets/challenge/spinning_cat.mp3");
 
       // Impostiamo tutti gli audio in loop
       introAudio.loop = true;
       victoryAudio.loop = true;
       lostAudio.loop = true;
+      tipsAudio.loop = true;
 
       // Avvia l'audio di intro
       introAudio.play().catch(error => console.log("Errore nel riprodurre l'audio di intro:", error));
@@ -93,6 +93,10 @@ function stopAllAudio() {
     lostAudio.pause();
     lostAudio.currentTime = 0; // Riavvia da inizio se viene riprodotto di nuovo
   }
+  if (tipsAudio) {
+    tipsAudio.pause();
+    tipsAudio.currentTime = 0; // Riavvia da inizio se viene riprodotto di nuovo
+  }
 }
 
 // Funzione per gestire la visualizzazione delle tips (ora ne concede 2)
@@ -100,11 +104,45 @@ function showTip(id) {
   let tipsUsed = parseInt(getCookie("tipsUsed")) || 0;
 
   if (tipsUsed >= 2) {
+    tipsAudio.play().catch(error => console.log("Errore nel riprodurre l'audio:", error));
     Swal.fire({
       icon: 'warning',
-      title: 'Attenzione!',
-      text: 'Hai già usato entrambe le tue tips!',
+      title: 'Hai gia usato tutte le tue tips!',
+      html:`
+      <img width="50%" class="swal-media" src="assets/challenge/spinning_cat.gif" alt="Tips">
+      `,
+    }).then(() => {
+      stopAllAudio(); // Ferma gli audio quando l'utente chiude l'alert
     });
+
+    // Avvia il timer di 45 secondi per mostrare il messaggio di aiuto
+    let seconds = 45;  // Timer di 45 secondi
+    
+    // Controlla se il cookie per il Rickroll è stato settato
+    if (!getCookie("rickrollShown")) {
+      let timerInterval = setInterval(() => {
+        console.log(`Timer: ${seconds} secondi rimasti`);
+        seconds--;
+        
+        if (seconds <= 0) {
+          clearInterval(timerInterval);
+          // Mostra il messaggio di aiuto dopo 45 secondi
+          Swal.fire({
+            title: 'Vedo che sei in difficoltà!',
+            text: 'Clicca qui per ottenere un\'altra tip!',
+            confirmButtonText: 'Ottieni un\'altra tip',
+            icon: 'info',
+            preConfirm: () => {
+              // Link scherzoso che manda a una pagina esterna (Rickroll)
+              window.location.href = "https://www.youtube.com/watch?v=xvFZjo5PgG0"; // Link scherzo (Rickroll)
+            }
+          });
+
+          // Imposta il cookie per evitare che lo Swal venga mostrato di nuovo
+          setCookie("rickrollShown", "true", 365); // Imposta il cookie per un anno
+        }
+      }, 1000); // Ogni secondo, quindi 1000 millisecondi
+    }
   } else {
     document.getElementById('tip' + id).style.display = "block";
     setCookie("tipsUsed", (tipsUsed + 1).toString(), 1); // Aggiorna il numero di tips usate
