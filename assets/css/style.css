@@ -32,3 +32,8 @@ canvas {
   color: blue; 
   font-style: italic; 
 }
+
+.swal-media{
+  border-radius: 8px; 
+  margin: 0.5rem
+}
