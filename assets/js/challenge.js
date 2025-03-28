@@ -42,14 +42,14 @@ function showTip(id) {
 function checkAnswers() {
   const answers = {
     challenge1: "16",
-    challenge2: "vacca", // esempio, puoi cambiare la parola giusta
+    challenge2: "vacca",
     challenge3: "198",
     challenge4: "4",
     challenge5: "25",
-    challenge6: "3", // esempio per il nerdle, inserisci il numero giusto
+    challenge6: "", // Permettiamo qualsiasi valore
     challenge7: "ajalab",
     challenge8: "orma",
-    challenge9: "suvaziendali", // Rimosso spazio per validazione corretta
+    challenge9: "suvaziendali",
     challenge10: "32",
   };
 
@@ -57,7 +57,9 @@ function checkAnswers() {
 
   for (let key in answers) {
     let userAnswer = document.getElementById(key).value.trim().toLowerCase().replace(/\s+/g, "");
-    if (userAnswer !== answers[key].toLowerCase().replace(/\s+/g, "")) {
+
+    // Challenge 6 viene sempre considerata corretta
+    if (key !== "challenge6" && userAnswer !== answers[key].toLowerCase().replace(/\s+/g, "")) {
       allCorrect = false;
     }
   }
@@ -80,6 +82,7 @@ function checkAnswers() {
     });
   }
 }
+
 
 // Funzione per gestire i cookie
 function setCookie(name, value, hours) {
