@@ -1,4 +1,3 @@
-// Mostra la richiesta di consenso per i cookie e per audio/video al caricamento della pagina
 window.onload = function() {
   // Verifica se l'utente ha già dato il consenso
   if (!getCookie("userConsent")) {
@@ -37,10 +36,8 @@ function showTutorial(consentGiven = true) {
     title: 'Benvenuto alla challenge!',
     html: `
       <div style="display: flex; justify-content: center; align-items: center; padding: 10px;">
-        <video class="swal-media" id="introVideo" playsinline autoplay muted loop
-          style="width: 100%; max-width: 500px;" 
-          src="assets/challenge/challenge_cropped.mp4">
-        </video>
+        <img class="swal-media" id="introGif" src="assets/challenge/challenge_cropped.gif" 
+          style="width: 100%; max-width: 500px;">
       </div>
       <div style="text-align: left; margin-top: 10px;">
         <p><strong>Regole del gioco:</strong></p>
@@ -48,34 +45,27 @@ function showTutorial(consentGiven = true) {
           <li>Inserisci le risposte corrette</li>
           <li>Hai a disposizione solamente <strong>2 tips</strong>, usale con cautela!</li>
           <li>Puoi provare a vedere se hai vinto tutte le volte che vuoi</li>
-          <li>I primi tre classificati vinceranno un altro</li>
+          <li>I primi tre classificati vinceranno un altro drink!</li>
         </ul>
       </div>
     `,
     icon: 'info',
     confirmButtonText: 'Iniziamo!',
     didOpen: () => {
-      let video = document.getElementById("introVideo");
+      // Avvia l'audio non appena il popup di benvenuto si apre
+      let introAudio = new Audio("assets/challenge/challenge_cropped.mp3");
+      introAudio.play().catch(error => console.log("Errore nel riprodurre l'audio:", error));
 
-      if (consentGiven) {
-        let introAudio = new Audio("assets/challenge/intro_audio.mp3");
-
-        // Avvia il video e audio se il consenso è stato dato
-        video.muted = false;
-
-        // La riproduzione del video/audio deve essere avviata tramite interazione
-        Swal.getConfirmButton().addEventListener("click", () => {
-          video.play().catch(error => console.log("Errore nel riprodurre il video:", error));
-          introAudio.play().catch(error => console.log("Errore nel riprodurre l'audio:", error));
-        });
-      } else {
-        // Se il consenso è negato, il video è silenziato e l'audio non parte
-        video.muted = true; 
-      }
+      // Ferma l'audio quando l'utente chiude il popup
+      Swal.getConfirmButton().addEventListener("click", () => {
+        if (introAudio) {
+          introAudio.pause();
+          introAudio.currentTime = 0; // Riavvia da inizio se viene riprodotto di nuovo
+        }
+      });
     }
   });
 }
-
 
 // Funzione per gestire la visualizzazione delle tips (ora ne concede 2)
 function showTip(id) {
